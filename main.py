@@ -1,27 +1,20 @@
-import threading
-
-from system_files.sysfunc import dbugprint
-
-from system_files import keypress_reader
-from system_files import system_status
-from language_files import locale_EN as lang
+from threading import Thread
+#===========================
+from system_files.keyhit_reader import initialize_keyhit_reader
+from system_files.sysfunc import current_display_ui
 
 from interfaces import _001_front_menu
 
-# START OF MAIN CODE
 def main_program():
-    while system_status.isRunning:
-        match (system_status.page):
-            case "Main Menu":
-                dbugprint("Main Menu")
-                _001_front_menu.self()
-                
+    while True:
+        match (current_display_ui):
+            case "Front Menu":
+                _001_front_menu._self()
 
-thread1 = threading.Thread(target=keypress_reader.initialize_keypress_reader)
-thread2 = threading.Thread(target=main_program)
+if __name__ == "__main__":
 
-thread1.start()
-thread2.start()
+    thread1 = Thread(target=main_program)
+    thread2 = Thread(target=initialize_keyhit_reader)
 
-thread1.join()
-thread2.join()
+    thread1.start()
+    thread2.start()

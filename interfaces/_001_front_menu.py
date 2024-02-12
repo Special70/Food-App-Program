@@ -1,13 +1,9 @@
-from language_files import locale_EN as lang
-from system_files.sysfunc import arrow_scroll, refresh_text, ScrollBar
+from system_files.sysfunc import is_program_running
+
+from lang.locale_EN import _001_front_menu
 
 
-scroll_list = ScrollBar(2)
-
-def self():
-    global scroll_list
-    global text_to_print
-    text_to_print = lang.lang001_main
-    refresh_text()
-    while True:
+def _self():
+    print(_001_front_menu)
+    while is_program_running:
         pass

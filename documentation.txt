@@ -1,0 +1,48 @@
+Python Modules Used:
+- threading
+- msvcrt
+
+Files:
+
+| main.py : Main program. Run only this to start the program properly.
+| system_files
+| | keyhit_reader.py : Reads keyhits. Will frequently be used by other programs to know what to do depending on the user input
+| | sysfunc.py : Stores important functions related to this program.
+| interfaces
+| | _001_front_menu.py : Hosts text and other functions for the front menu (the menu you first see upon opening the main.py file)
+| lang
+| | locale_EN.py : Stores values about non-hard coded text. This is where programmers can edit the language
+
+
+Logic Flow:
+
+- main.py runs
+- thread1 and thread2 runs. 
+- thread2 will start the keyhit reader. The code there will mostly contain
+code that's required by other py files
+- thread1 will run the main code.
+
+
+
+
+
+
+
+
+
+
+
+keyhit_reader.py logic flow:
+- import the needed methods and variables
+- method is defined. will be executed once at main.py
+- uses the global keyword to make the changes on the file's key_hit variable be accessible to the other py files live
+- special_key_hit var's purpose is to serve as a "passage" for the follow-up execution of special key hits (for example,
+the down key will make the msvcrt.getch() run twice in a while loop)
+- special_key_tag var's purpose is to record the value of the first part of a special key hit to specify which key was used
+- while loop starts (as long as the program is running)
+- if kbhit(): meaning, if a key hit is performed, it will run
+- the value of the key hit is stored at raw_key_hit and has been converted to string
+
+- if the output detects the values of backspace and enter key, run their respective commands
+
+- 
