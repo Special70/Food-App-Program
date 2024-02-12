@@ -21,7 +21,7 @@ def initialize_keyhit_reader():
                 dbugprint("Enter Key")
                 continue
 
-            if "b'\\x" in raw_key_hit:
+            if "b'\\" in raw_key_hit:
                 special_key_hit = True
                 special_key_tag = raw_key_hit
                 continue
@@ -29,17 +29,17 @@ def initialize_keyhit_reader():
             # Check for arrow keys and other characters that may cause the method to run twice
             if special_key_hit:
                 match(special_key_tag, raw_key_hit):
-                    case "b'\\xe0'", "b'H'":
+                    case "b'\\xe0'" | "b'\\x00'", "b'H'":
                         dbugprint("Up Key Press")
-                    case "b'\\xe0'", "b'P'":
+                    case "b'\\xe0'" | "b'\\x00'", "b'P'":
                         dbugprint("Down Key Press")
-                    case "b'\\xe0'", "b'K'":
+                    case "b'\\xe0'" | "b'\\x00'", "b'K'":
                         dbugprint("Left Key Press")
-                    case "b'\\xe0'", "b'M'":
+                    case "b'\\xe0'" | "b'\\x00'", "b'M'":
                         dbugprint("Right Key Press")
                 raw_key_hit = ""
                 special_key_hit = False
                 continue
 
             key_hit = raw_key_hit[2:3]
-            dbugprint(raw_key_hit)
+            dbugprint(key_hit)
