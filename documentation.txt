@@ -32,17 +32,46 @@ code that's required by other py files
 
 
 
-keyhit_reader.py logic flow:
-- import the needed methods and variables
-- method is defined. will be executed once at main.py
-- uses the global keyword to make the changes on the file's key_hit variable be accessible to the other py files live
-- special_key_hit var's purpose is to serve as a "passage" for the follow-up execution of special key hits (for example,
-the down key will make the msvcrt.getch() run twice in a while loop)
-- special_key_tag var's purpose is to record the value of the first part of a special key hit to specify which key was used
-- while loop starts (as long as the program is running)
-- if kbhit(): meaning, if a key hit is performed, it will run
-- the value of the key hit is stored at raw_key_hit and has been converted to string
+keyhit_reader.py logic flow for initialize_keyhit_reader():
+- set key_hit var to global to make get_key_hit() able to return the proper values
+- special_key_hit checks if a special key is pressed. IF yes, the next hits will get checked by the switch case instead
+- special_key_tag saves the key prefix sent by the special key hit (context: for example, the arrow key will make kbhit() run twice)
+- while looop will run
+ - if kbhit() # if a keypress is made
+ - save key hit as raw_key_hit
+ - if said key hit reads as backspace key:
+   - run code 
+ - if said key hit reads as enter key:
+   - run code
+ - if key hit contains special key prefix:
+   - special_key_hit = True
+   - special_key_tag = recorded key hit prefix
+   - continue
 
-- if the output detects the values of backspace and enter key, run their respective commands
+ - if special key hit was done in a previous loop:
+   - run match case to check what special key is pressed
+   - then run commands
+   - modify key_hit value
+   - continue
 
+ - extract the char from the getch method
+ - set the value of key_hit with the extracted char value
+
+
+
+
+
+
+
+
+
+
+
+
+
+LIST OF FILES WHERE FILE IMPORTS ARE TO BE AVOIDED AT ALL COSTS 
+(BECAUSE THERE'S A HIGH CHANCE CIRCULAR IMPORTS COULD OCCUR)
+- system_files/sysfuc.py
+- system_files/config.py
+- interfaces/func.py
 - 

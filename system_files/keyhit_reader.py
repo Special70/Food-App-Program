@@ -3,6 +3,15 @@ from system_files.sysfunc import is_program_running, dbugprint
 
 key_hit = ""
 
+# This is needed because other threads can't actively access the key_hit variable
+def get_key_hit(): 
+    global key_hit
+    return key_hit
+
+def reset_key_hit_val():
+    global key_hit
+    key_hit = ""
+
 def initialize_keyhit_reader():
     dbugprint("[!] initialize keyhit reader! ")
     global key_hit
@@ -30,12 +39,16 @@ def initialize_keyhit_reader():
             if special_key_hit:
                 match(special_key_tag, raw_key_hit):
                     case "b'\\xe0'" | "b'\\x00'", "b'H'":
+                        key_hit = "up"
                         dbugprint("Up Key Press")
                     case "b'\\xe0'" | "b'\\x00'", "b'P'":
+                        key_hit = "down"
                         dbugprint("Down Key Press")
                     case "b'\\xe0'" | "b'\\x00'", "b'K'":
+                        key_hit = "left"
                         dbugprint("Left Key Press")
                     case "b'\\xe0'" | "b'\\x00'", "b'M'":
+                        key_hit = "right"
                         dbugprint("Right Key Press")
                 raw_key_hit = ""
                 special_key_hit = False
