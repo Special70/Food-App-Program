@@ -10,8 +10,10 @@ Files:
 | | sysfunc.py : Stores important functions related to this program.
 | interfaces
 | | _001_front_menu.py : Hosts text and other functions for the front menu (the menu you first see upon opening the main.py file)
+| | func.py : Holds functions for ui design such as arrow scrolling
 | lang
 | | locale_EN.py : Stores values about non-hard coded text. This is where programmers can edit the language
+| | lang_obj.py : Stores the class object used by locale_EN.py 
 
 
 Logic Flow:
@@ -21,7 +23,11 @@ Logic Flow:
 - thread2 will start the keyhit reader. The code there will mostly contain
 code that's required by other py files
 - thread1 will run the main code.
-
+  - if arrow is located at the 2nd line:
+    - end code
+  - if arrow is located at the 1st line:
+    - move to the second interface (Main Menu)
+.........................................
 
 
 
@@ -33,6 +39,7 @@ code that's required by other py files
 
 
 keyhit_reader.py logic flow for initialize_keyhit_reader():
+- regularly check if the program is still running
 - set key_hit var to global to make get_key_hit() able to return the proper values
 - special_key_hit checks if a special key is pressed. IF yes, the next hits will get checked by the switch case instead
 - special_key_tag saves the key prefix sent by the special key hit (context: for example, the arrow key will make kbhit() run twice)

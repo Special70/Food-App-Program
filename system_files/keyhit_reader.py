@@ -1,5 +1,5 @@
 from msvcrt import kbhit, getch
-from system_files.sysfunc import is_program_running, dbugprint
+from system_files.sysfunc import is_program_running, dbugprint, get_program_status
 
 key_hit = ""
 
@@ -19,15 +19,18 @@ def initialize_keyhit_reader():
     special_key_hit = False # Other keys such as arrow keys make the msvcrt library run twice
     special_key_tag = None
     
-    while is_program_running:
+    while get_program_status():
         if kbhit():
+            
             raw_key_hit = str(getch())
             # Back and Enter key checks:
             if raw_key_hit == "b'\\x08'":
                 dbugprint("Backspace Key")
+                key_hit = "backspace"
                 continue
             elif raw_key_hit == "b'\\r'":
                 dbugprint("Enter Key")
+                key_hit = "enter"
                 continue
 
             if "b'\\" in raw_key_hit:
