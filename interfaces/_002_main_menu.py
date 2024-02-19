@@ -11,10 +11,15 @@ def _self():
         if get_key_hit():
             match(get_key_hit()):
                 case "up" | "down":
-                    arrow_scroll(lang_obj._002_main_menu, "side_bar", get_key_hit())
+                    arrow_scroll(lang_obj._002_main_menu, lang_obj._002_main_menu.get_current_scroll_bar(), get_key_hit())
                     system('cls')
                     #dbugprint("Arrow Scroll Occured")
                     print(lang_obj._002_main_menu.get_text())
+                case "left" | "right":
+                    lang_obj._002_main_menu.change_scroll_column(get_key_hit())
+                    system('cls')
+                    print(lang_obj._002_main_menu.get_text())
+                    reset_key_hit_val()
                 case _:
                     if lang_obj._002_main_menu.get_side_bar(0) == '►':
                         if len(get_key_hit()) == 1 or get_key_hit() == "backspace":
@@ -29,3 +34,8 @@ def _self():
                 system('cls')
                 reset_key_hit_val()
                 break
+            if lang_obj._002_main_menu.get_side_bar(2) == '►':
+                system('cls')
+                lang_obj._002_main_menu.change_sort_mode("Name")
+                print(lang_obj._002_main_menu.get_text())
+                reset_key_hit_val()

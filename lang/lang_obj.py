@@ -26,6 +26,7 @@ class SelectorMenuUI_Format:
         self.text = ""
         self.search_bar = ""
         self.sort_mode = "None"
+        self.scroll_column = "left"
     def get_side_bar(self, targetIndex):
         return self.side_bar[targetIndex]
     def get_selector_bar(self, targetIndex):
@@ -46,8 +47,9 @@ class SelectorMenuUI_Format:
             text_to_print = text_to_print.replace("%searchbar_guide%", "Type characters to type. Hit Backspace to remove characters")
         else:
             text_to_print = text_to_print.replace("%searchbar_guide%", "")
-
         data_list = self.assemble_list()
+        if len(self.search_bar) > 0:
+            data_list = [element for element in self.assemble_list() if self.search_bar in element]
         
         data_list_iteration = 0
         match (self.sort_mode):
@@ -56,8 +58,18 @@ class SelectorMenuUI_Format:
                     text_to_print = text_to_print.replace("%line"+str(data_list_iteration)+"%", iteration)
                     data_list_iteration += 1
             case "Name":
-                pass
-
+                new_list = sorted(data_list)
+                for iteration in new_list:
+                    text_to_print = text_to_print.replace("%line"+str(data_list_iteration)+"%", iteration)
+                    data_list_iteration += 1
+        
+        # Adjust arrow selector for self.selector_bar if search bar text is changed'"
+        
+        # Blanks unused placeholders due to search list having less elements than the UI length
+        for iteration in range(10):
+            text_to_print = text_to_print.replace("%line"+str(iteration)+"%", "")
+            text_to_print = text_to_print.replace("%selector"+str(iteration)+"%", "")
+        
         return text_to_print
     def modify_search_text(self, keyhit):
         if keyhit == "backspace" and len(self.search_bar) > 0:
@@ -67,6 +79,22 @@ class SelectorMenuUI_Format:
     def assemble_list(self):
         data_info = get_info()
         return data_info
+    def change_sort_mode(self, mode):
+        self.sort_mode = mode
+    def change_scroll_column(self, side):
+        if '►' in self.selector_bar and side == "left":
+            self.selector_bar[self.selector_bar.index('►')] = " "
+            self.side_bar[0] = '►'
+            self.scroll_column = "side_bar"
+        elif '►' in self.side_bar and side == "right":
+            self.side_bar[self.side_bar.index('►')] = " "
+            self.selector_bar[0] = '►'
+            self.scroll_column = "selector_bar"
+    def get_current_scroll_bar(self):
+        if '►' in self.side_bar:
+            return "side_bar"
+        if '►' in self.selector_bar:
+            return "selector_bar"
     
         
 _002_main_menu = SelectorMenuUI_Format()

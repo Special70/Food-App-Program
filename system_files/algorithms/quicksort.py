@@ -1,5 +1,7 @@
 from random import randrange
 
+# Quicksort Algorithm deals with modifying the object
+
 def algorithm(given_list, start, end):
     if start > end:
         return
@@ -21,8 +23,14 @@ def algorithm(given_list, start, end):
 
 
 def _self(givenList):
-    return algorithm(givenList, 0, len(givenList)-1)
+    algorithm(givenList, 0, len(givenList)-1)
 
 if __name__ == "__main__":
-    testlist = [3, 6, 2, 5, 1]
-    print(_self(testlist))
+    # Testing Area
+    #testlist = [3, 6, 2, 5, 1]
+    # _self(testlist)
+    # print(testlist)
+    
+    #wow = sorted(testlist)
+    #print(wow)
+    pass
