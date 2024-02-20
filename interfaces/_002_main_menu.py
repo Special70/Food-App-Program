@@ -16,7 +16,8 @@ def _self():
                     #dbugprint("Arrow Scroll Occured")
                     print(lang_obj._002_main_menu.get_text())
                 case "left" | "right":
-                    lang_obj._002_main_menu.change_scroll_column(get_key_hit())
+                    lang_obj._002_main_menu.change_scroll_bar(get_key_hit())
+                    lang_obj._002_main_menu.change_first_index_value("set", 0)
                     system('cls')
                     print(lang_obj._002_main_menu.get_text())
                     reset_key_hit_val()
@@ -37,5 +38,15 @@ def _self():
             if lang_obj._002_main_menu.get_side_bar(2) == '►':
                 system('cls')
                 lang_obj._002_main_menu.change_sort_mode("Name")
+                print(lang_obj._002_main_menu.get_text())
+                reset_key_hit_val()
+            if lang_obj._002_main_menu.get_side_bar(3) == '►':
+                system('cls')
+                lang_obj._002_main_menu.set_values_to_display("Shops")
+                print(lang_obj._002_main_menu.get_text())
+                reset_key_hit_val()
+            if lang_obj._002_main_menu.get_side_bar(4) == '►':
+                system('cls')
+                lang_obj._002_main_menu.set_values_to_display("Products")
                 print(lang_obj._002_main_menu.get_text())
                 reset_key_hit_val()

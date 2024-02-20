@@ -2,7 +2,7 @@ import csv
 
 target_file = 'food_data/datafile.csv'
 
-def get_info():
+def get_info(getinfo="keys"):
     with open(target_file, "r") as csvfile:
         reader = csv.DictReader(csvfile)
 
@@ -14,12 +14,22 @@ def get_info():
                     datalist[element] += [row.get(element).split(":")]
                 else:
                     datalist[element] = [row.get(element).split(":")]
-            #print(" ")
-        #print("FINAL RESULT:")
-        #present_data = str(datalist).replace("],","],\n")
-        #print(present_data)
-
-        return datalist
+        if getinfo == "keys":
+            keys = []
+            for i in datalist.keys():
+                keys.append(i)
+            return keys
+        elif getinfo == "products":
+            present_data = datalist
+            new_data = []
+    
+            for iteration in present_data:
+                for item in present_data[iteration]:
+                    if str(item) == "['']":
+                        continue
+                    new_data.append(item[0])
+                    #print(item)
+            return new_data
 
 if __name__ == "__main__":
-    get_info()
+    print(get_info("products"))
