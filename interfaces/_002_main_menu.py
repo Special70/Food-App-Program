@@ -37,7 +37,10 @@ def _self():
                 break
             if lang_obj._002_main_menu.get_side_bar(2) == '►':
                 system('cls')
-                lang_obj._002_main_menu.change_sort_mode("Name")
+                if lang_obj._002_main_menu.sort_mode == "None":
+                    lang_obj._002_main_menu.change_sort_mode("Name")
+                elif lang_obj._002_main_menu.sort_mode == "Name":
+                    lang_obj._002_main_menu.change_sort_mode("None")
                 print(lang_obj._002_main_menu.get_text())
                 reset_key_hit_val()
             if lang_obj._002_main_menu.get_side_bar(3) == '►':

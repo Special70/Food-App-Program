@@ -24,9 +24,9 @@ _001_front_menu.set_text(lang_text._001_front_menu)
 class SelectorMenuUI_Format:
     def __repr__(self):
         return "SelectorMenuUI_Format"
-    def __init__(self, bar_length=7):
+    def __init__(self, bar_length=5):
         self.side_bar = ['►']+[' ']*(bar_length-1)
-        self.selector_bar = [' ']+[' ']*(9)
+        self.selector_bar = [' ']+[' ']*(6)
         self.selector_bar_length = 0
         self.text = ""
         self.search_bar = ""
@@ -95,10 +95,26 @@ class SelectorMenuUI_Format:
         
         text_to_print = text_to_print.replace("%up_arrow%", '▲' if self.first_index_display > 0 else "")
         text_to_print = text_to_print.replace("%down_arrow%", '▼' if self.first_index_display+7 < len(data_to_display) else "")
+        text_to_print = text_to_print.replace("%possible_results_text%","Possible Results : "+str(self.get_selector_bar_length()))
+        text_to_print = text_to_print.replace("%namesort%", "←" if self.sort_mode == "Name" else " ")
+        # Searchbar Guide
+        textguide = ""
+        if self.side_bar[0] == '►':
+            textguide = "Hit Characters to type. Hit Backspace to press delete" 
+        elif self.side_bar[1] == '►':
+            textguide = "Hit ENTER to go back"
+        elif self.side_bar[2] == '►':
+            textguide = "Hit ENTER to toggle Name-Sorting Mode"
+        elif self.side_bar[3] == '►':
+            textguide = "Hit ENTER to view available shops"
+        elif self.side_bar[4] == '►':
+            textguide = "Hit ENTER to view available products across shops"
+        text_to_print = text_to_print.replace("%searchbar_guide%", textguide)
         # Blanking unused placeholders:
         for i in range(7):
             text_to_print = text_to_print.replace("%line"+str(i)+"%", "")
         # =======================================================================
+        self.set_number_of_values_displayed(len(data_to_display))
         
         return text_to_print
     
@@ -134,7 +150,8 @@ class SelectorMenuUI_Format:
         self.text = '\n'.join(stringVal)
     def set_values_to_display(self, saidVal="Shops"): # Set what values to show ( Refer to food_data_reader.py )
         self.display_values = saidVal
-    
+    def set_number_of_values_displayed(self, value): # Sets the value of self.selector_possible_displays to know how many items are displayed
+        self.selector_possible_displays = value
         
 _002_main_menu = SelectorMenuUI_Format()
 _002_main_menu.set_text(lang_text._002_main_menu)

@@ -17,12 +17,15 @@ _002_main_menu = [
     f"==============================================================",
     f"====| %side1% Back       |   %up_arrow%",
     f"====| Sort:        | %selector0% %line0%",
-    f"====| %side2% Name       | %selector1% %line1%",
+    f"====| %side2% Name %namesort%     | %selector1% %line1%",
     f"====| Display:     | %selector2% %line2%",
     f"====| %side3% Shops      | %selector3% %line3%",
     f"====| %side4% Products   | %selector4% %line4%",
-    f"====| %side5%            | %selector5% %line5%",
+    f"====|              | %selector5% %line5%",
     f"====|              | %selector6% %line6%",
     f"====|              |   %down_arrow%",
+    f"==============================================================",
+    f"====|              |   %possible_results_text%",
+    f"==============================================================",
     f""
 ]
