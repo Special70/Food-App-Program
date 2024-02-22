@@ -9,14 +9,14 @@ class RegularUI_Format:
         self.text = None
     def get_val(self, targetIndex):
         return self.bar[targetIndex]
-    def set_text(self, stringVal):
-        self.text = '\n'.join(stringVal)
     def get_text(self):
         text_to_print = self.text
         for i in range(len(self.bar)):
             replace_text = "%"+str(i)+"%"
             text_to_print = text_to_print.replace(replace_text, self.get_val(i))
         return text_to_print
+    def set_text(self, stringVal):
+        self.text = '\n'.join(stringVal)
 
 _001_front_menu = RegularUI_Format(2)
 _001_front_menu.set_text(lang_text._001_front_menu)
@@ -31,25 +31,29 @@ class SelectorMenuUI_Format:
         self.text = ""
         self.search_bar = ""
         self.sort_mode = "None"
-        self.display_values = "Products"
-        self.scroll_column = "left"
+        self.display_values = "Shops"
+        self.scroll_column = "selector_bar"
         
         self.first_index_display = 0
         self.selector_display_length = 7 # Hard-Coded Value
         self.selector_possible_displays = 0
-
+        
+        self.displayed_values = []
+        
+    def get_what_values_displayed(self): # Get what values are displayed
+        return self.display_values
     def get_side_bar(self, targetIndex): # Get left sliding array values
         return self.side_bar[targetIndex]
     def get_selector_bar(self, targetIndex): # Get right sliding array values
         return self.selector_bar[targetIndex]
     def get_selector_bar_length(self): # Get right sliding supposed length
         return self.selector_bar_length
-    def get_search_bar_value(self):
+    def get_search_bar_value(self): # Get the string written at the search bar
         return self.search_bar
     def get_data_list(self, datatype="keys"): # Get data values for display usage
         data_info = get_info(datatype)
         return data_info
-    def get_current_scroll_bar(self): # Get which scroll bar is being used currently
+    def get_current_scroll_column(self): # Get which scroll bar is being used currently
         if '►' in self.side_bar:
             return "side_bar"
         if '►' in self.selector_bar:
@@ -63,21 +67,25 @@ class SelectorMenuUI_Format:
         if self.display_values == "Shops":
             data_list = self.get_data_list()
         elif self.display_values == "Products":
-            data_list = self.get_data_list("products")
+            data_list = self.get_data_list("products and shop info")
         
         # Filter Data based on search bar input
         if len(self.search_bar) > 0:
-            data_list = [element for element in data_list if self.get_search_bar_value().lower() in element.lower()]
+            if self.display_values != "Products":
+                data_list = [element for element in data_list if self.get_search_bar_value().lower() in element.lower()]
+            else:
+                data_list = [data_list[i] for i in range(len(data_list)) if self.get_search_bar_value().lower() in data_list[i][0].lower()]
         
         # If Name Sort Enabled:
         if self.sort_mode == "Name":
             data_to_display = sorted(data_list)
+            #data_list_with_shop_name = sorted(data_list_with_shop_name)
         else:
             data_to_display = data_list
         
         # Add values to display array
         for i in range(len(data_to_display)):
-            text_to_display.append(data_to_display[i+self.first_index_display])
+            text_to_display.append(data_to_display[i+self.first_index_display][0] if self.display_values == "Products" else data_to_display[i+self.first_index_display])
             if len(text_to_display) >= 7:
                 break
         self.set_selector_bar_length(len(data_to_display))
@@ -97,6 +105,10 @@ class SelectorMenuUI_Format:
         text_to_print = text_to_print.replace("%down_arrow%", '▼' if self.first_index_display+7 < len(data_to_display) else "")
         text_to_print = text_to_print.replace("%possible_results_text%","Possible Results : "+str(self.get_selector_bar_length()))
         text_to_print = text_to_print.replace("%namesort%", "←" if self.sort_mode == "Name" else " ")
+        text_to_print = text_to_print.replace("%selector_shops%", "←" if self.display_values == "Shops" else " ")
+        text_to_print = text_to_print.replace("%selector_products%", "←" if self.display_values == "Products" else " ")
+        text_to_print = text_to_print.replace("%productdisplay0%", "====|              |   From Shop: "+str(data_to_display[self.selector_bar.index('►')+self.first_index_display][1]) if (self.get_current_scroll_column() == "selector_bar" and self.display_values == "Products") else "")
+        text_to_print = text_to_print.replace("%productdisplay1%", "==============================================================" if (self.get_current_scroll_column() == "selector_bar" and self.display_values == "Products") else "")
         # Searchbar Guide
         textguide = ""
         if self.side_bar[0] == '►':
@@ -109,12 +121,15 @@ class SelectorMenuUI_Format:
             textguide = "Hit ENTER to view available shops"
         elif self.side_bar[4] == '►':
             textguide = "Hit ENTER to view available products across shops"
+        elif self.scroll_column == 'right' and self.display_values == "Shops":
+            textguide = "Hit ENTER to view available products in the target shops"
         text_to_print = text_to_print.replace("%searchbar_guide%", textguide)
         # Blanking unused placeholders:
         for i in range(7):
             text_to_print = text_to_print.replace("%line"+str(i)+"%", "")
         # =======================================================================
         self.set_number_of_values_displayed(len(data_to_display))
+        self.export_displayed_values(data_to_display)
         
         return text_to_print
     
@@ -144,6 +159,10 @@ class SelectorMenuUI_Format:
             self.first_index_display += value
         elif modification == "set":
             self.first_index_display = value
+    def export_displayed_values(self, values):
+        self.displayed_values = values
+    def import_displayed_values(self):
+        return self.displayed_values
     def set_selector_bar_length(self, length): # ( Mainly used by self.get_text() ) to change the supposed length to let the rest of the code know the supposed length
         self.selector_bar_length = length
     def set_text(self, stringVal): # Set Text
@@ -155,3 +174,6 @@ class SelectorMenuUI_Format:
         
 _002_main_menu = SelectorMenuUI_Format()
 _002_main_menu.set_text(lang_text._002_main_menu)
+
+_003_select_product_menu = SelectorMenuUI_Format()
+_003_select_product_menu.set_text(lang_text._003_select_product_menu)

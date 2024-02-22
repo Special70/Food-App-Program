@@ -3,7 +3,7 @@ from os import system
 #================================
 from system_files.keyhit_reader import get_key_hit, reset_key_hit_val
 from system_files.sysfunc import change_current_display, dbugprint
-from interfaces.func import arrow_scroll
+from interfaces.func import arrow_scroll, val_container
 
 def _self():
     print(lang_obj._002_main_menu.get_text())
@@ -11,7 +11,7 @@ def _self():
         if get_key_hit():
             match(get_key_hit()):
                 case "up" | "down":
-                    arrow_scroll(lang_obj._002_main_menu, lang_obj._002_main_menu.get_current_scroll_bar(), get_key_hit())
+                    arrow_scroll(lang_obj._002_main_menu, lang_obj._002_main_menu.get_current_scroll_column(), get_key_hit())
                     system('cls')
                     #dbugprint("Arrow Scroll Occured")
                     print(lang_obj._002_main_menu.get_text())
@@ -31,6 +31,7 @@ def _self():
                             print(lang_obj._002_main_menu.get_text())
         if get_key_hit() == "enter":
             if lang_obj._002_main_menu.get_side_bar(1) == '►':
+                lang_obj._002_main_menu.search_bar = ""
                 change_current_display("Front Menu")
                 system('cls')
                 reset_key_hit_val()
@@ -53,3 +54,11 @@ def _self():
                 lang_obj._002_main_menu.set_values_to_display("Products")
                 print(lang_obj._002_main_menu.get_text())
                 reset_key_hit_val()
+            if lang_obj._002_main_menu.get_current_scroll_column() == "selector_bar":
+                if lang_obj._002_main_menu.get_what_values_displayed() == "Shops":
+                    lang_obj._002_main_menu.search_bar = ""
+                    change_current_display("Select Product Menu")
+                    system('cls')
+                    val_container.select_shop(lang_obj._002_main_menu.import_displayed_values()[lang_obj._002_main_menu.selector_bar.index('►')+lang_obj._002_main_menu.first_index_display])
+                    reset_key_hit_val()
+                    break
