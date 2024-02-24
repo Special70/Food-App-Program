@@ -49,9 +49,7 @@ _003_select_product_menu = [
     "====|              | %selector6% %line6%",
     "====|              |   %down_arrow%",
     "==============================================================",
-    "====|              |   %possible_results_text%",
+    "====|              |   Selected Shop: %display_selected_shop%",
     "==============================================================",
-    "%productdisplay0%",
-    "%productdisplay1%",
     ""
 ]

@@ -1,5 +1,6 @@
 from lang import locale_EN as lang_text
 from system_files.food_data_reader import get_info
+from lang.return_text_formatters import _002, _003
 
 class RegularUI_Format:
     def __repr__(self):
@@ -21,10 +22,16 @@ class RegularUI_Format:
 _001_front_menu = RegularUI_Format(2)
 _001_front_menu.set_text(lang_text._001_front_menu)
 
+# ============================================================================================
+# ============================================================================================
+# ============================================================================================
+
 class SelectorMenuUI_Format:
     def __repr__(self):
-        return "SelectorMenuUI_Format"
-    def __init__(self, bar_length=5):
+        return "SelectorMenuUI_Format" 
+    def __init__(self, bar_length=5, name=""):
+        self.obj_name = name # Used to specify what UI is using this class
+
         self.side_bar = ['►']+[' ']*(bar_length-1)
         self.selector_bar = [' ']+[' ']*(6)
         self.selector_bar_length = 0
@@ -40,6 +47,23 @@ class SelectorMenuUI_Format:
         
         self.displayed_values = []
         
+    def refresh_default_values(self):
+        if '►' in self.side_bar:
+            self.side_bar[self.side_bar.index('►')] = ' '
+        if '►' in self.selector_bar:    
+            self.selector_bar[self.selector_bar.index('►')] = ' '
+        self.side_bar[0] = '►'
+        self.selector_bar_length = 0
+        self.search_bar = ""
+        self.sort_mode = "None"
+        self.display_values = "Shops"
+        self.scroll_column = "selector_bar"
+        
+        self.first_index_display = 0
+        self.selector_display_length = 7 # Hard-Coded Value
+        self.selector_possible_displays = 0
+        
+        self.displayed_values = []
     def get_what_values_displayed(self): # Get what values are displayed
         return self.display_values
     def get_side_bar(self, targetIndex): # Get left sliding array values
@@ -59,79 +83,10 @@ class SelectorMenuUI_Format:
         if '►' in self.selector_bar:
             return "selector_bar"
     def get_text(self):
-        text_to_print = self.text
-        
-        # Get Specified Data
-        data_to_display = []
-        text_to_display = []
-        if self.display_values == "Shops":
-            data_list = self.get_data_list()
-        elif self.display_values == "Products":
-            data_list = self.get_data_list("products and shop info")
-        
-        # Filter Data based on search bar input
-        if len(self.search_bar) > 0:
-            if self.display_values != "Products":
-                data_list = [element for element in data_list if self.get_search_bar_value().lower() in element.lower()]
-            else:
-                data_list = [data_list[i] for i in range(len(data_list)) if self.get_search_bar_value().lower() in data_list[i][0].lower()]
-        
-        # If Name Sort Enabled:
-        if self.sort_mode == "Name":
-            data_to_display = sorted(data_list)
-            #data_list_with_shop_name = sorted(data_list_with_shop_name)
-        else:
-            data_to_display = data_list
-        
-        # Add values to display array
-        for i in range(len(data_to_display)):
-            text_to_display.append(data_to_display[i+self.first_index_display][0] if self.display_values == "Products" else data_to_display[i+self.first_index_display])
-            if len(text_to_display) >= 7:
-                break
-        self.set_selector_bar_length(len(data_to_display))
-        # Writing placeholders
-        for i in range(len(self.side_bar)): 
-            text_to_print = text_to_print.replace("%side"+str(i)+"%", self.get_side_bar(i))
-
-        for i in range(len(self.selector_bar)): 
-            text_to_print = text_to_print.replace("%selector"+str(i)+"%", self.get_selector_bar(i))
-        
-        for i in range(len(text_to_display)):
-            text_to_print = text_to_print.replace("%line"+str(i)+"%", text_to_display[i])
-        
-        text_to_print = text_to_print.replace("%text%", self.search_bar)
-        
-        text_to_print = text_to_print.replace("%up_arrow%", '▲' if self.first_index_display > 0 else "")
-        text_to_print = text_to_print.replace("%down_arrow%", '▼' if self.first_index_display+7 < len(data_to_display) else "")
-        text_to_print = text_to_print.replace("%possible_results_text%","Possible Results : "+str(self.get_selector_bar_length()))
-        text_to_print = text_to_print.replace("%namesort%", "←" if self.sort_mode == "Name" else " ")
-        text_to_print = text_to_print.replace("%selector_shops%", "←" if self.display_values == "Shops" else " ")
-        text_to_print = text_to_print.replace("%selector_products%", "←" if self.display_values == "Products" else " ")
-        text_to_print = text_to_print.replace("%productdisplay0%", "====|              |   From Shop: "+str(data_to_display[self.selector_bar.index('►')+self.first_index_display][1]) if (self.get_current_scroll_column() == "selector_bar" and self.display_values == "Products") else "")
-        text_to_print = text_to_print.replace("%productdisplay1%", "==============================================================" if (self.get_current_scroll_column() == "selector_bar" and self.display_values == "Products") else "")
-        # Searchbar Guide
-        textguide = ""
-        if self.side_bar[0] == '►':
-            textguide = "Hit Characters to type. Hit Backspace to press delete" 
-        elif self.side_bar[1] == '►':
-            textguide = "Hit ENTER to go back"
-        elif self.side_bar[2] == '►':
-            textguide = "Hit ENTER to toggle Name-Sorting Mode"
-        elif self.side_bar[3] == '►':
-            textguide = "Hit ENTER to view available shops"
-        elif self.side_bar[4] == '►':
-            textguide = "Hit ENTER to view available products across shops"
-        elif self.scroll_column == 'right' and self.display_values == "Shops":
-            textguide = "Hit ENTER to view available products in the target shops"
-        text_to_print = text_to_print.replace("%searchbar_guide%", textguide)
-        # Blanking unused placeholders:
-        for i in range(7):
-            text_to_print = text_to_print.replace("%line"+str(i)+"%", "")
-        # =======================================================================
-        self.set_number_of_values_displayed(len(data_to_display))
-        self.export_displayed_values(data_to_display)
-        
-        return text_to_print
+        if self.obj_name == "_002_main_menu":
+            return _002._self(self)
+        if self.obj_name == "_003_select_product_menu":
+            return _003._self(self)
     
     # Modification Methods ============================================================================================================================================
     # Modification Methods ============================================================================================================================================
@@ -172,8 +127,12 @@ class SelectorMenuUI_Format:
     def set_number_of_values_displayed(self, value): # Sets the value of self.selector_possible_displays to know how many items are displayed
         self.selector_possible_displays = value
         
-_002_main_menu = SelectorMenuUI_Format()
+_002_main_menu = SelectorMenuUI_Format(name="_002_main_menu")
 _002_main_menu.set_text(lang_text._002_main_menu)
 
-_003_select_product_menu = SelectorMenuUI_Format()
+# ============================================================================================
+# ============================================================================================
+# ============================================================================================
+
+_003_select_product_menu = SelectorMenuUI_Format(name="_003_select_product_menu", bar_length=3)
 _003_select_product_menu.set_text(lang_text._003_select_product_menu)

@@ -33,6 +33,8 @@ def arrow_scroll(obj, attribute, direction):
 class InstanceInfo: # Class object used to store values that needs to be carried over to the next UI
     def __init__(self):
         self.selected_shop = ""
+    def get_selected_shop(self):
+        return self.selected_shop
     def select_shop(self, shop):
         self.selected_shop = shop
         

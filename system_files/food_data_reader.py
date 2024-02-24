@@ -2,7 +2,7 @@ import csv
 
 target_file = 'food_data/datafile.csv'
 
-def get_info(getinfo="keys"):
+def get_info(getinfo="keys", targetkey=""):
     with open(target_file, "r") as csvfile:
         reader = csv.DictReader(csvfile)
 
@@ -42,6 +42,14 @@ def get_info(getinfo="keys"):
                     new_data.append([str(item[0]+" : $"+item[1]), iteration])
                     # Product Name, Shop Name, Price
             return new_data
+        elif getinfo == "shop products":
+            present_data = datalist
+            new_data = []
+            for item in present_data[targetkey]:
+                if str(item) == "['']":
+                    continue
+                new_data.append(item)
+            return new_data
 
 if __name__ == "__main__":
-    print(get_info("products and shop info"))
+    print(get_info("shop products", targetkey="Savory Bites Bistro"))
