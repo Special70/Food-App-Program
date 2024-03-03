@@ -47,3 +47,10 @@ def _self():
                     _003_select_product_menu.change_sort_mode("None")
                 print(_003_select_product_menu.get_text())
                 reset_key_hit_val()
+            if _003_select_product_menu.get_current_scroll_column() == "selector_bar":
+                _003_select_product_menu.search_bar = ""
+                val_container.select_product(_003_select_product_menu.import_displayed_values()[_003_select_product_menu.selector_bar.index('►')+_003_select_product_menu.first_index_display])
+                change_current_display("Purchase Product Menu")
+                system('cls')
+                reset_key_hit_val()
+                break

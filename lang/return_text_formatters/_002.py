@@ -1,3 +1,5 @@
+from interfaces.func import val_container
+
 def _self(obj):
     text_to_print = obj.text
         
@@ -20,6 +22,8 @@ def _self(obj):
     if obj.sort_mode == "Name":
         data_to_display = sorted(data_list)
         #data_list_with_shop_name = sorted(data_list_with_shop_name)
+    if obj.sort_mode == "Price":
+        pass
     else:
         data_to_display = data_list
     
@@ -47,8 +51,13 @@ def _self(obj):
     text_to_print = text_to_print.replace("%namesort%", "←" if obj.sort_mode == "Name" else " ")
     text_to_print = text_to_print.replace("%selector_shops%", "←" if obj.display_values == "Shops" else " ")
     text_to_print = text_to_print.replace("%selector_products%", "←" if obj.display_values == "Products" else " ")
-    text_to_print = text_to_print.replace("%productdisplay0%", "====|              |   From Shop: "+str(data_to_display[obj.selector_bar.index('►')+obj.first_index_display][1]) if (obj.get_current_scroll_column() == "selector_bar" and obj.display_values == "Products") else "")
-    text_to_print = text_to_print.replace("%productdisplay1%", "==============================================================" if (obj.get_current_scroll_column() == "selector_bar" and obj.display_values == "Products") else "")
+    if (obj.get_current_scroll_column() == "selector_bar" and obj.display_values == "Products"):
+        text_to_print += "====|              |   From Shop: "+str(data_to_display[obj.selector_bar.index('►')+obj.first_index_display][1])+"\n"
+        text_to_print += "====|              |=========================================="+"\n"
+    if val_container.get_list_of_selected_items():
+        text_to_print += "====| Press V to   |   Selected Products: "+str(len(val_container.get_list_of_selected_items()))+"\n"
+        text_to_print += "====| view selected|"+"\n"
+        text_to_print += "====| products     |=========================================="+"\n"
     # Searchbar Guide
     textguide = ""
     if obj.side_bar[0] == '►':

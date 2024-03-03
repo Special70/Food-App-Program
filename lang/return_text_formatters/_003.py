@@ -41,7 +41,12 @@ def _self(obj):
     text_to_print = text_to_print.replace("%down_arrow%", '▼' if obj.first_index_display+7 < len(data_to_display) else "")
     text_to_print = text_to_print.replace("%namesort%", "←" if obj.sort_mode == "Name" else " ")
     text_to_print = text_to_print.replace("%display_selected_shop%", val_container.get_selected_shop())
+    if val_container.get_list_of_selected_items():
+        text_to_print += "====| Press V to   |   Selected Products: "+str(len(val_container.get_list_of_selected_items()))+"\n"
+        text_to_print += "====| view selected|"+"\n"
+        text_to_print += "====| products     |=========================================="+"\n"
     # Blanking unused placeholders:
+    #print(val_container.get_list_of_selected_items())
     for i in range(7):
         text_to_print = text_to_print.replace("%line"+str(i)+"%", "")
     # =======================================================================
