@@ -1,2 +1,2 @@
 # Debug Mode. If enabled, all dbugprint() calls will print text
-debug_mode = False
+debug_mode = True

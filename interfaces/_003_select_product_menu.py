@@ -41,9 +41,17 @@ def _self():
                 break
             if _003_select_product_menu.get_side_bar(2) == '►':
                 system('cls')
-                if _003_select_product_menu.sort_mode == "None":
+                if _003_select_product_menu.sort_mode != "Name":
                     _003_select_product_menu.change_sort_mode("Name")
                 elif _003_select_product_menu.sort_mode == "Name":
+                    _003_select_product_menu.change_sort_mode("None")
+                print(_003_select_product_menu.get_text())
+                reset_key_hit_val()
+            if _003_select_product_menu.get_side_bar(3) == '►':
+                system('cls')
+                if _003_select_product_menu.sort_mode != "Price":
+                    _003_select_product_menu.change_sort_mode("Price")
+                elif _003_select_product_menu.sort_mode == "Price":
                     _003_select_product_menu.change_sort_mode("None")
                 print(_003_select_product_menu.get_text())
                 reset_key_hit_val()

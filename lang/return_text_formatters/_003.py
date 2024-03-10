@@ -1,5 +1,6 @@
 from system_files.food_data_reader import get_info
 from interfaces.func import val_container
+from system_files.algorithms.quicksort import algorithm as quicksort
 
 def _self(obj):
     text_to_print = obj.text
@@ -11,11 +12,14 @@ def _self(obj):
     
     # Filter Data based on search bar input
     data_list = [element for element in data_list if obj.get_search_bar_value().lower() in element[0].lower()]
-        
+    print("Tenma", data_list)
     # If Name Sort Enabled:
     if obj.sort_mode == "Name":
         data_to_display = sorted(data_list)
-        #data_list_with_shop_name = sorted(data_list_with_shop_name)
+    elif obj.sort_mode == "Price":
+        before_sort = data_list
+        quicksort(before_sort, 0, len(before_sort)-1)
+        data_to_display = before_sort
     else:
         data_to_display = data_list
     
@@ -40,6 +44,7 @@ def _self(obj):
     text_to_print = text_to_print.replace("%up_arrow%", '▲' if obj.first_index_display > 0 else "")
     text_to_print = text_to_print.replace("%down_arrow%", '▼' if obj.first_index_display+7 < len(data_to_display) else "")
     text_to_print = text_to_print.replace("%namesort%", "←" if obj.sort_mode == "Name" else " ")
+    text_to_print = text_to_print.replace("%pricesort%", "←" if obj.sort_mode == "Price" else " ")
     text_to_print = text_to_print.replace("%display_selected_shop%", val_container.get_selected_shop())
     if val_container.get_list_of_selected_items():
         text_to_print += "====| Press V to   |   Selected Products: "+str(len(val_container.get_list_of_selected_items()))+"\n"

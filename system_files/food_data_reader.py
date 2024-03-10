@@ -1,4 +1,5 @@
 import csv
+from system_files.algorithms.quicksort import algorithm
 
 target_file = 'food_data/datafile.csv'
 
@@ -52,4 +53,5 @@ def get_info(getinfo="keys", targetkey=""):
             return new_data
 
 if __name__ == "__main__":
-    print(get_info("shop products", targetkey="Savory Bites Bistro"))
+    print(algorithm(get_info("shop products", targetkey="Savory Bites Bistro")))
+    

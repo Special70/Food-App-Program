@@ -1,4 +1,6 @@
 from interfaces.func import val_container
+from system_files.algorithms.quicksort import algorithm as quicksort
+from system_files.sysfunc import dbugprint
 
 def _self(obj):
     text_to_print = obj.text
@@ -21,11 +23,13 @@ def _self(obj):
     # If Name Sort Enabled:
     if obj.sort_mode == "Name":
         data_to_display = sorted(data_list)
-        #data_list_with_shop_name = sorted(data_list_with_shop_name)
-    if obj.sort_mode == "Price":
-        pass
+    elif obj.sort_mode == "Price":
+        before_sort = data_list
+        quicksort(before_sort, 0, len(before_sort)-1)
+        data_to_display = before_sort
     else:
         data_to_display = data_list
+    
     
     # Add values to display array
     for i in range(len(data_to_display)):
@@ -49,7 +53,8 @@ def _self(obj):
     text_to_print = text_to_print.replace("%down_arrow%", '▼' if obj.first_index_display+7 < len(data_to_display) else "")
     text_to_print = text_to_print.replace("%possible_results_text%","Possible Results : "+str(obj.get_selector_bar_length()))
     text_to_print = text_to_print.replace("%namesort%", "←" if obj.sort_mode == "Name" else " ")
-    text_to_print = text_to_print.replace("%selector_shops%", "←" if obj.display_values == "Shops" else " ")
+    text_to_print = text_to_print.replace("%pricesort%", "←" if obj.sort_mode == "Price" else " ")
+    text_to_print = text_to_print.replace("%selector_shops%", "←" if obj.display_values == "Shops" and obj.get_what_values_displayed() != "Shops" else " ")
     text_to_print = text_to_print.replace("%selector_products%", "←" if obj.display_values == "Products" else " ")
     if (obj.get_current_scroll_column() == "selector_bar" and obj.display_values == "Products"):
         text_to_print += "====|              |   From Shop: "+str(data_to_display[obj.selector_bar.index('►')+obj.first_index_display][1])+"\n"
