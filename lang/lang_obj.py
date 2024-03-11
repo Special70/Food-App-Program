@@ -127,7 +127,7 @@ class SelectorMenuUI_Format:
     def set_number_of_values_displayed(self, value): # Sets the value of self.selector_possible_displays to know how many items are displayed
         self.selector_possible_displays = value
         
-_002_main_menu = SelectorMenuUI_Format(name="_002_main_menu", bar_length=6)
+_002_main_menu = SelectorMenuUI_Format(name="_002_main_menu", bar_length=5)
 _002_main_menu.set_text(lang_text._002_main_menu)
 
 # ============================================================================================

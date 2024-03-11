@@ -1,10 +1,10 @@
 from os import system
 
-from interfaces.func import val_container
 from lang.lang_obj import _003_select_product_menu
 from system_files.keyhit_reader import get_key_hit, reset_key_hit_val
 from system_files.sysfunc import change_current_display, dbugprint
-from interfaces.func import arrow_scroll, val_container
+from interfaces.func import arrow_scroll
+from interfaces.val_storage import val_container
 
 def _self():
     #print("Selected Shop:",val_container.get_selected_shop())

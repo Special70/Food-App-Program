@@ -1,4 +1,4 @@
-from interfaces.func import val_container
+from interfaces.val_storage import val_container
 
 def _self(self):
     text_to_print = self.text

@@ -1,5 +1,5 @@
 from system_files.food_data_reader import get_info
-from interfaces.func import val_container
+from interfaces.val_storage import val_container
 from system_files.algorithms.quicksort import algorithm as quicksort
 
 def _self(obj):
@@ -12,7 +12,6 @@ def _self(obj):
     
     # Filter Data based on search bar input
     data_list = [element for element in data_list if obj.get_search_bar_value().lower() in element[0].lower()]
-    print("Tenma", data_list)
     # If Name Sort Enabled:
     if obj.sort_mode == "Name":
         data_to_display = sorted(data_list)

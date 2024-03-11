@@ -3,7 +3,8 @@ from os import system
 from lang.lang_obj import _002_main_menu
 from system_files.keyhit_reader import get_key_hit, reset_key_hit_val
 from system_files.sysfunc import change_current_display, dbugprint
-from interfaces.func import arrow_scroll, val_container
+from interfaces.func import arrow_scroll
+from interfaces.val_storage import val_container
 
 def _self():
     _002_main_menu.refresh_default_values()
@@ -45,20 +46,12 @@ def _self():
                     _002_main_menu.change_sort_mode("None")
                 print(_002_main_menu.get_text())
                 reset_key_hit_val()
-            if _002_main_menu.get_side_bar(3) == '►' and _002_main_menu.get_what_values_displayed() != "Shops":
-                system('cls')
-                if _002_main_menu.sort_mode != "Price":
-                    _002_main_menu.change_sort_mode("Price")
-                elif _002_main_menu.sort_mode == "Price":
-                    _002_main_menu.change_sort_mode("None")
-                print(_002_main_menu.get_text())
-                reset_key_hit_val()
-            if _002_main_menu.get_side_bar(4) == '►':
+            if _002_main_menu.get_side_bar(3) == '►':
                 system('cls')
                 _002_main_menu.set_values_to_display("Shops")
                 print(_002_main_menu.get_text())
                 reset_key_hit_val()
-            if _002_main_menu.get_side_bar(5) == '►':
+            if _002_main_menu.get_side_bar(4) == '►':
                 system('cls')
                 _002_main_menu.set_values_to_display("Products")
                 print(_002_main_menu.get_text())
