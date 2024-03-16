@@ -24,6 +24,13 @@ def _self():
                     system('cls')
                     print(_003_select_product_menu.get_text())
                     reset_key_hit_val()
+                case "V":
+                    if val_container.get_list_of_selected_items():
+                        change_current_display("Purchase Finalization Menu")
+                        val_container.set_previous_menu("Select Product Menu")
+                        system('cls')
+                        reset_key_hit_val()
+                        break
                 case _:
                     if _003_select_product_menu.get_side_bar(0) == '►':
                         if len(get_key_hit()) == 1 or get_key_hit() == "backspace":
@@ -32,6 +39,7 @@ def _self():
                             #dbugprint("Added inputs to search bar")
                             reset_key_hit_val()
                             print(_003_select_product_menu.get_text())
+                        
         if get_key_hit() == "enter":
             if _003_select_product_menu.get_side_bar(1) == '►':
                 _003_select_product_menu.search_bar = ""

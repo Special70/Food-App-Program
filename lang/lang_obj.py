@@ -1,6 +1,6 @@
 from lang import locale_EN as lang_text
 from system_files.food_data_reader import get_info
-from lang.return_text_formatters import _002, _003, _004
+from lang.return_text_formatters import _002, _003, _004, _005
 
 class RegularUI_Format:
     def __repr__(self):
@@ -82,11 +82,13 @@ class SelectorMenuUI_Format:
             return "side_bar"
         if '►' in self.selector_bar:
             return "selector_bar"
-    def get_text(self):
+    def get_text(self, arg0=""):
         if self.obj_name == "_002_main_menu":
             return _002._self(self)
         if self.obj_name == "_003_select_product_menu":
             return _003._self(self)
+        if self.obj_name == "_005_confirm_purchase_menu":
+            return _005._self(self, scroll_direction=arg0)
     
     # Modification Methods ============================================================================================================================================
     # Modification Methods ============================================================================================================================================
@@ -160,3 +162,18 @@ class PurchaseMenuUI_Format:
 
 _004_purchase_menu = PurchaseMenuUI_Format()
 _004_purchase_menu.set_text(lang_text._004_purchase_menu)
+
+_005_confirm_purchase_menu = SelectorMenuUI_Format(name="_005_confirm_purchase_menu")
+_005_confirm_purchase_menu.set_text(lang_text._005_confirm_purchase_menu)
+_005_confirm_purchase_menu.current_index = 0
+
+class SimpleUI_Format:
+    def __init__(self):
+        self.text = ""
+    def set_text(self, value):
+        self.text = '\n'.join(value)
+    def get_text(self):
+        return self.text
+
+_006_end_menu = SimpleUI_Format()
+_006_end_menu.set_text(lang_text._006_end_menu)

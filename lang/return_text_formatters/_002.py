@@ -55,9 +55,10 @@ def _self(obj):
         text_to_print += "====|              |   From Shop: "+str(data_to_display[obj.selector_bar.index('►')+obj.first_index_display][1])+"\n"
         text_to_print += "====|              |=========================================="+"\n"
     if val_container.get_list_of_selected_items():
-        text_to_print += "====| Press V to   |   Selected Products: "+str(len(val_container.get_list_of_selected_items()))+"\n"
-        text_to_print += "====| view selected|"+"\n"
-        text_to_print += "====| products     |=========================================="+"\n"
+        text_to_print += "====|              |   Selected Products: "+str(len(val_container.get_list_of_selected_items()))+"\n"
+        text_to_print += "====|              |   From Shop: "+val_container.get_seller_of_items()+"\n"
+        text_to_print += "====|==============|=========================================="+"\n"
+        text_to_print += "====| Press Shift+V to view selected products"+"\n"
     # Searchbar Guide
     textguide = ""
     if obj.side_bar[0] == '►':

@@ -1,5 +1,4 @@
 from os import system
-from time import sleep
 
 from interfaces.val_storage import val_container
 from lang.lang_obj import _003_select_product_menu ,_004_purchase_menu
@@ -20,7 +19,7 @@ def _self():
                 case "c":
                     if _004_purchase_menu.get_amount() <= 0:
                         continue
-                    val_container.add_item_to_list_of_selected_items(val_container.get_selected_product(), _004_purchase_menu.get_amount())
+                    val_container.add_item_to_list_of_selected_items(val_container.get_selected_products(), _004_purchase_menu.get_amount())
                     val_container.set_seller_of_items(val_container.get_selected_shop())
                     change_current_display("Select Product Menu")
                     system('cls')

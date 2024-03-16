@@ -23,6 +23,13 @@ def _self():
                     system('cls')
                     print(_002_main_menu.get_text())
                     reset_key_hit_val()
+                case "V":
+                    if val_container.get_list_of_selected_items():
+                        change_current_display("Purchase Finalization Menu")
+                        val_container.set_previous_menu("Main Menu")
+                        system('cls')
+                        reset_key_hit_val()
+                        break
                 case _:
                     if _002_main_menu.get_side_bar(0) == '►':
                         if len(get_key_hit()) == 1 or get_key_hit() == "backspace":

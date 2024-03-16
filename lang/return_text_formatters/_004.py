@@ -2,7 +2,7 @@ from interfaces.val_storage import val_container
 
 def _self(self):
     text_to_print = self.text
-    selected_product = val_container.get_selected_product()
+    selected_product = val_container.get_selected_products()
     
     text_to_print = text_to_print.replace("%product%", str(selected_product[0])+" ($"+str(selected_product[1]+")"))
     total_amount = float(selected_product[1])*self.get_amount()
