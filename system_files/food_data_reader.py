@@ -1,57 +1,53 @@
 import csv
-from system_files.algorithms.quicksort import algorithm
 
-target_file = 'food_data/datafile.csv'
+target_file = 'records/food_datafile.csv'
+getinfo_keys = []
+getinfo_products = []
+getinfo_products_and_shop_info = []
 
-def get_info(getinfo="keys", targetkey=""):
-    with open(target_file, "r") as csvfile:
-        reader = csv.DictReader(csvfile)
-
-        datalist = {}
-        for row in reader:
-            #print(row)
-            for element in row:
-                if element in datalist:
-                    datalist[element] += [row.get(element).split(":")]
-                else:
-                    datalist[element] = [row.get(element).split(":")]
-        if getinfo == "keys":
-            keys = []
-            for i in datalist.keys():
-                keys.append(i)
-            return keys
-        elif getinfo == "products":
-            present_data = datalist
-            new_data = []
-    
-            for iteration in present_data:
-                for item in present_data[iteration]:
-                    if str(item) == "['']":
-                        continue
-                    new_data.append(item[0])
-                    #print(item)
-            return new_data
-        elif getinfo == "products and shop info":
-            present_data = datalist
-            new_data = []
-            
-            for iteration in present_data:
+with open(target_file, "r") as csvfile:
+    reader = csv.DictReader(csvfile)
+    datalist = {}
+    for row in reader: # row == csv file row (contains values in that row including blanks)
+        for element in row: # element == target column when reading each column in a row which is the shop name
+            if row.get(element) == "": # Ignores empty fields
+                continue
+            if element in datalist: # If shop is recorded at least once
+                datalist[element] += [row.get(element).split(":")]
+            else: # If shop has yet to be recorded in the dictionary
+                datalist[element] = [row.get(element).split(":")]
                 
-                for item in present_data[iteration]:
-                    if str(item) == "['']":
-                        continue
-                    new_data.append([str(item[0]+" : $"+item[1]), iteration])
-                    # Product Name, Shop Name, Price
-            return new_data
-        elif getinfo == "shop products":
-            present_data = datalist
-            new_data = []
-            for item in present_data[targetkey]:
-                if str(item) == "['']":
-                    continue
-                new_data.append(item)
-            return new_data
-
-if __name__ == "__main__":
-    print(algorithm(get_info("shop products", targetkey="Savory Bites Bistro")))
+# Key Getters:
+for iteration in datalist.keys():
+    getinfo_keys.append(iteration)
     
+# All Product Value Getters:
+for iteration in datalist:
+    for item in datalist[iteration]:
+        if str(item) == "['']":
+            continue
+        getinfo_products.append(item[0])
+        
+# Product and Shop Getters:
+for iteration in datalist:
+    for item in datalist[iteration]:
+        if str(item) == "['']":
+            continue
+        getinfo_products_and_shop_info.append([str(item[0]+" : $"+item[1]), iteration])
+        # Product Name, Shop Name, Price
+    
+
+def get_info(getinfo="keys", targetkey="") :
+    if getinfo == "keys":
+        return getinfo_keys
+    elif getinfo == "products":
+        return getinfo_products
+    elif getinfo == "products and shop info":
+        return getinfo_products_and_shop_info
+    elif getinfo == "shop products":
+        return datalist[targetkey]
+    
+# Testing area
+if __name__ == "__main__":
+    #print(datalist["Savory Bites Bistro"])
+    pass

@@ -2,11 +2,11 @@ from os import system
 
 from lang.lang_obj import _005_confirm_purchase_menu
 from system_files.keyhit_reader import get_key_hit, reset_key_hit_val
-from system_files.sysfunc import change_current_display, dbugprint
+from system_files.sysfunc import change_current_display
 from interfaces.val_storage import val_container
-from interfaces.func import arrow_scroll
 
 def _self():
+    print(val_container.get_list_of_selected_items())
     print(_005_confirm_purchase_menu.get_text())
     while True:
         if get_key_hit():
@@ -23,8 +23,8 @@ def _self():
                     break
                 case "up" | "down":
                     #dbugprint("Arrow Scroll Occured")
-                    print(_005_confirm_purchase_menu.get_text(get_key_hit()))
                     system('cls')
+                    print(_005_confirm_purchase_menu.get_text(get_key_hit()))
                     reset_key_hit_val()
     
     

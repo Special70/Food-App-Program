@@ -1,12 +1,18 @@
 from os import system
 
 from interfaces.val_storage import val_container
-from lang.lang_obj import _003_select_product_menu ,_004_purchase_menu
+from lang.lang_obj import _004_purchase_menu
 from system_files.sysfunc import change_current_display, dbugprint
 from system_files.keyhit_reader import get_key_hit, reset_key_hit_val
 
+def check_for_product(): # Checks if the selected product exists in the list of products
+    for index in range(len(val_container.list_of_selected_items)):
+        if _004_purchase_menu.selected_product[0] == val_container.list_of_selected_items[index][0]:
+            _004_purchase_menu.selected_product[2] = val_container.list_of_selected_items[index][2] # Replaces the amount value with the saved value
+            val_container.list_of_selected_items.pop(index) # Removes the item from the list
+    return 0
+
 def _self():
-    #print(val_container.get_selected_product())
     _004_purchase_menu.refresh()
     print(_004_purchase_menu.get_text())
     while True:
@@ -16,19 +22,21 @@ def _self():
                     _004_purchase_menu.modify_amunt(1)
                 case "down":
                     _004_purchase_menu.modify_amunt(-1)
-                case "c":
-                    if _004_purchase_menu.get_amount() <= 0:
+                case "enter":
+                    if _004_purchase_menu.selected_product[2] <= 0:
                         continue
-                    val_container.add_item_to_list_of_selected_items(val_container.get_selected_products(), _004_purchase_menu.get_amount())
+                    val_container.add_item_to_list_of_selected_items(_004_purchase_menu.selected_product)
                     val_container.set_seller_of_items(val_container.get_selected_shop())
                     change_current_display("Select Product Menu")
                     system('cls')
                     reset_key_hit_val()
                     break
-                case "b":
+                case "backspace":
                     change_current_display("Select Product Menu")
                     system('cls')
                     reset_key_hit_val()
+                    if _004_purchase_menu.selected_product[2] > 0:
+                        val_container.add_item_to_list_of_selected_items(_004_purchase_menu.selected_product)
                     break
             system('cls')
             print(_004_purchase_menu.get_text())

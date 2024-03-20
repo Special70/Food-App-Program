@@ -1,6 +1,6 @@
 from os import system
 
-from lang.lang_obj import _003_select_product_menu
+from lang.lang_obj import _003_select_product_menu, _004_purchase_menu
 from system_files.keyhit_reader import get_key_hit, reset_key_hit_val
 from system_files.sysfunc import change_current_display, dbugprint
 from interfaces.func import arrow_scroll
@@ -65,7 +65,9 @@ def _self():
                 reset_key_hit_val()
             if _003_select_product_menu.get_current_scroll_column() == "selector_bar":
                 _003_select_product_menu.search_bar = ""
-                val_container.select_product(_003_select_product_menu.import_displayed_values()[_003_select_product_menu.selector_bar.index('►')+_003_select_product_menu.first_index_display])
+                _004_purchase_menu.selected_product = [_003_select_product_menu.import_displayed_values()[_003_select_product_menu.selector_bar.index('►')+_003_select_product_menu.first_index_display][0],
+                                                       _003_select_product_menu.import_displayed_values()[_003_select_product_menu.selector_bar.index('►')+_003_select_product_menu.first_index_display][1],
+                                                       1]
                 change_current_display("Purchase Product Menu")
                 system('cls')
                 reset_key_hit_val()

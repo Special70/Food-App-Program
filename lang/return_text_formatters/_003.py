@@ -51,7 +51,6 @@ def _self(obj):
         text_to_print += "====|==============|=========================================="+"\n"
         text_to_print += "====| Press Shift+V to view selected products"+"\n"
     # Blanking unused placeholders:
-    #print(val_container.get_list_of_selected_items())
     for i in range(7):
         text_to_print = text_to_print.replace("%line"+str(i)+"%", "")
     # =======================================================================

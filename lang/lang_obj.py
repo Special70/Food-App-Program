@@ -1,6 +1,7 @@
 from lang import locale_EN as lang_text
 from system_files.food_data_reader import get_info
 from lang.return_text_formatters import _002, _003, _004, _005
+from interfaces.val_storage import val_container
 
 class RegularUI_Format:
     def __repr__(self):
@@ -146,18 +147,25 @@ _003_select_product_menu.set_text(lang_text._003_select_product_menu)
 class PurchaseMenuUI_Format:
     def __init__(self):
         self.text = ""
-        self.amount = 0
+        self.selected_product = [] # Name, Price
+        self.selected_shop = ""
     def refresh(self):
         self.amount = 0
     def set_text(self, value):
         self.text = '\n'.join(value)
     def modify_amunt(self, value):
-        if self.amount+value >= 0:
-            self.amount += value
+        if self.selected_product[2]+value >= 0:
+            self.selected_product[2] += value
     def get_text(self):
         return _004._self(self)
     def get_amount(self):
         return self.amount
+    def get_selected_product(self):
+        for i in range(len(val_container.list_of_selected_items)):
+            if self.selected_product[0] == val_container.list_of_selected_items[i][0]:
+                self.selected_product[2] = val_container.list_of_selected_items[i][2]
+                val_container.list_of_selected_items.remove(i)
+        return self.selected_product
     
 
 _004_purchase_menu = PurchaseMenuUI_Format()
