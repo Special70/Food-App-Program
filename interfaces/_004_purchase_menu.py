@@ -37,6 +37,8 @@ def _self():
                     reset_key_hit_val()
                     if _004_purchase_menu.selected_product[2] > 0:
                         val_container.add_item_to_list_of_selected_items(_004_purchase_menu.selected_product)
+                    if len(val_container.get_list_of_selected_items()) == 0:
+                        val_container.set_seller_of_items("")
                     break
             system('cls')
             print(_004_purchase_menu.get_text())

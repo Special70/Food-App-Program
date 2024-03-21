@@ -1,5 +1,6 @@
 from lang import locale_EN as lang_text
 from system_files.food_data_reader import get_info
+from system_files.sysfunc import dbugprint
 from lang.return_text_formatters import _002, _003, _004, _005
 from interfaces.val_storage import val_container
 
@@ -161,10 +162,13 @@ class PurchaseMenuUI_Format:
     def get_amount(self):
         return self.amount
     def get_selected_product(self):
-        for i in range(len(val_container.list_of_selected_items)):
-            if self.selected_product[0] == val_container.list_of_selected_items[i][0]:
-                self.selected_product[2] = val_container.list_of_selected_items[i][2]
-                val_container.list_of_selected_items.remove(i)
+        index = 0
+        for item in val_container.get_list_of_selected_items():
+            if _004_purchase_menu.selected_product[0] == item[0]:
+                _004_purchase_menu.selected_product[2] = item[2]
+                val_container.list_of_selected_items.remove(item)
+                break
+            index += 1
         return self.selected_product
     
 

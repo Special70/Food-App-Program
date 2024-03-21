@@ -63,6 +63,7 @@ _004_purchase_menu = [
     "%confirm%",
     " BACKSPACE : Back",
     "==============================================================",
+    " To delete a purchase, set the amount to 0 and press BACKSPACE",
     ""
 ]
 

@@ -11,7 +11,7 @@ def _self():
         if get_key_hit():
             match (get_key_hit().lower()):
                 case "y":
-                    change_current_display(val_container.get_previous_menu())
+                    change_current_display("Front Menu")
                     system('cls')
                     reset_key_hit_val()
                     break

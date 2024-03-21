@@ -7,7 +7,6 @@ from interfaces.func import arrow_scroll
 from interfaces.val_storage import val_container
 
 def _self():
-    #print("Selected Shop:",val_container.get_selected_shop())
     _003_select_product_menu.refresh_default_values()
     print(_003_select_product_menu.get_text())
     while True:

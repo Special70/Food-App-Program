@@ -13,10 +13,14 @@ def _self(obj):
     elif obj.display_values == "Products":
         data_list = obj.get_data_list("products and shop info")
     
+    # Only display the currently selected shop
+    if val_container.get_seller_of_items() != "":
+        data_list = [val_container.get_seller_of_items()]
+    
     # Filter Data based on search bar input
     if len(obj.search_bar) > 0:
         if obj.display_values != "Products":
-            data_list = [element for element in data_list if obj.get_search_bar_value().lower() in element.lower()]
+            data_list = [element for element in data_list if obj.get_search_bar_value().lower() in element.lower() and data_list == val_container.get_selected_shop()]
         else:
             data_list = [data_list[i] for i in range(len(data_list)) if obj.get_search_bar_value().lower() in data_list[i][0].lower()]
         

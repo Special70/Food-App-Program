@@ -2,9 +2,8 @@ from interfaces.val_storage import val_container
 
 def _self(self):
     text_to_print = self.text
-    print(self.get_selected_product())
     
-    text_to_print = text_to_print.replace("%product%", str(self.get_selected_product()[0])+" ($"+str(self.get_selected_product()t[1]+")"))
+    text_to_print = text_to_print.replace("%product%", str(self.get_selected_product()[0])+" ($"+str(self.get_selected_product()[1])+")")
     total_amount = float(self.get_selected_product()[1])*self.get_selected_product()[2]
     text_to_print = text_to_print.replace("%amount%", str(self.get_selected_product()[2])+" "*(15-len(str(self.get_selected_product()[2]))))
     text_to_print = text_to_print.replace("%confirm%", " ENTER : Confirm" if self.get_selected_product()[2] > 0 else "")

@@ -2,11 +2,12 @@
 class InstanceInfo: # Class object used to store values that needs to be carried over to the next UI
     def __init__(self):
         # Stores selected items
-        self.seller_of_items = ""
         self.list_of_selected_items = [] # Format: [[Name, Price, Amount]]
+        self.total_price_of_selected_items = 0
         # Store previous menu
         self.previous_menu = ""
         self.selected_shop = ""
+        self.seller_of_items = ""
     def get_selected_shop(self):
         return self.selected_shop
     def get_list_of_selected_items(self):

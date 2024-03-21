@@ -34,6 +34,7 @@ def _self(obj, scroll_direction="null"):
         text_to_print = text_to_print.replace("%line"+str(i)+"%", "("+str(text_to_display[i][2])+"x)"+" "+str(text_to_display[i][0]+" : $"+text_to_display[i][1])) 
     
     text_to_print = text_to_print.replace("%total_price%",f"{sum([item[2]*float(item[1]) for item in data_to_display]):.2f}")
+    val_container.total_price_of_selected_items = sum([item[2]*float(item[1]) for item in data_to_display])
     # Blanking unused placeholders
     for i in range(7):
         text_to_print = text_to_print.replace("%line"+str(i)+"%", "")
