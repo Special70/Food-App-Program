@@ -19,8 +19,10 @@ def _self(obj):
     
     # Filter Data based on search bar input
     if len(obj.search_bar) > 0:
-        if obj.display_values != "Products":
-            data_list = [element for element in data_list if obj.get_search_bar_value().lower() in element.lower() and data_list == val_container.get_selected_shop()]
+        if val_container.get_seller_of_items():
+            data_list = [element for element in data_list if element == val_container.get_selected_shop()]
+        elif obj.display_values != "Products":
+            data_list = [element for element in data_list if obj.get_search_bar_value().lower() in element.lower()]
         else:
             data_list = [data_list[i] for i in range(len(data_list)) if obj.get_search_bar_value().lower() in data_list[i][0].lower()]
         
